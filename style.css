@@ -1,0 +1,172 @@
+:root{
+  --bg:#f4f7fb; --card:#ffffff; --muted:#6b7280; --primary:#0f4c81; --accent:#0b78d1;
+  --radius:10px; --shadow: 0 6px 18px rgba(12,38,76,0.08);
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#0b1220}
+/* Sesuaikan min-height agar tidak tertutup footer */
+.app{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 30px);} 
+.sidebar{background:linear-gradient(180deg,#072a4a 0%, #0f4c81 100%);color:#fff;padding:0 20px 20px 20px}
+
+/* 1. PENYESUAIAN LOGO CONTAINER DAN UKURAN LOGO */
+.logo-container {
+    padding: 25px 0 20px 0; /* Padding atas dan bawah lebih besar */
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.logo-container img {
+    width: 120px; /* Diperbesar menjadi 120px */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.nav{list-style:none;padding:0;margin:0}
+.nav li{Padding:10px 12px;border-radius:8px;margin-bottom:6px;cursor:pointer}
+.nav li:hover{background:rgba(255,255,255,0.06)}
+.nav li.active{background:rgba(255,255,255,0.12)}
+header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background:var(--card);border-bottom:1px solid #e6eef9}
+#page-title{font-size:20px;font-weight:600;color:var(--primary)}
+#datetime{font-size:14px;color:var(--muted)}
+.page-content{padding:30px;min-height:calc(100vh - 65px - 30px)} /* Sesuaikan tinggi agar tidak tertutup footer */
+.card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px}
+.stat-box{background:#e0f2fe;border-radius:var(--radius);padding:15px 20px;text-align:center}
+.stat-box h3{margin:0 0 5px;font-size:24px;color:var(--primary)}
+.stat-box p{margin:0;font-size:14px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+table th, table td{padding:10px 12px;text-align:left;border-bottom:1px solid #e6eef9}
+table th{background:#f8fafc;font-weight:600;color:var(--primary)}
+table tr:hover{background:#f8f9fb}
+.btn{padding:8px 15px;border:none;border-radius:6px;cursor:pointer;font-weight:600;transition:background 0.2s}
+.btn.primary{background:var(--primary);color:white}
+.btn.primary:hover{background:var(--accent)}
+.btn.ghost{background:transparent;border:1px solid var(--primary);color:var(--primary)}
+.btn.ghost:hover{background:var(--primary);color:white}
+.action-btn{background:transparent;border:none;cursor:pointer;font-size:16px;margin-left:5px}
+.action-btn:hover{opacity:0.7}
+.small{font-size:12px;color:var(--muted)}
+
+/* Modal Styles */
+.modal-backdrop{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;
+  z-index:1000;
+}
+.modal{
+  background:var(--card);padding:20px;border-radius:var(--radius);
+  box-shadow:var(--shadow);max-width:90%;width:500px;
+}
+.modal h3{margin-top:0;color:var(--primary)}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.modal-header .close-btn {
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--muted);
+}
+.modal-header .close-btn:hover {
+    color: var(--primary);
+}
+.form-row{display:flex;gap:10px;margin-bottom:10px}
+.form-row input, .form-row select, textarea{flex:1;padding:8px;border-radius:8px;border:1px solid #e6eef9}
+.calendar{background:var(--card);border-radius:var(--radius);padding:16px}
+.calendar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.calendar-nav{display:flex;gap:8px}
+.calendar-nav button{padding:6px 12px;border:none;background:var(--primary);color:white;border-radius:6px;cursor:pointer}
+.calendar-nav button:hover{background:var(--accent)}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.calendar-day-header{text-align:center;padding:8px;font-size:11px;font-weight:600;color:var(--muted)}
+.calendar-day{background:#f8fafc;padding:8px 4px;border-radius:6px;min-height:70px;font-size:12px;cursor:pointer;position:relative}
+.calendar-day:hover{background:#e2e8f0}
+.calendar-day.other-month{opacity:0.3; cursor: default;}
+.calendar-day.today{background:#e0f2fe;border:2px solid var(--accent)}
+.calendar-day-number{font-weight:600;margin-bottom:4px}
+
+/* NEW: Styling untuk Badge Kegiatan di Kalender (Kuning & Merah) */
+.events-list { margin-top: 5px; font-size: 0.75rem; }
+.event-badge { 
+    display: block; 
+    padding: 1px 4px; 
+    border-radius: 3px; 
+    margin-bottom: 2px; 
+    text-align: center; 
+    font-weight: 600;
+    font-size: 0.7rem; 
+    color: #000; /* Default text color */
+}
+
+/* Warna untuk PLANNING: KUNING */
+.badge-plan { 
+    background-color: #072cff; /* Kuning */
+    border: 1px solid #1500d341;
+    color: #ffffff;
+}
+
+/* Warna untuk VISITING: MERAH */
+.badge-visit { 
+    background-color: #dc3545; /* Merah */
+    border: 1px solid #bd2130;
+    color: white; /* Teks Putih untuk kontras */
+}
+
+.event-more { 
+    display: block; 
+    color: var(--muted); 
+    text-align: center;
+    font-size: 0.7rem; 
+}
+/* END NEW STYLING */
+
+
+/* STYLING WATERMARK FOOTER */
+.watermark-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    /* Gradient background biru elegant */
+    background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 50%, #e0e7ff 100%);
+    color: #0f4c81;
+    z-index: 1000;
+    /* Shadow yang lebih dramatis & modern */
+    box-shadow: 0 -4px 20px rgba(15, 76, 129, 0.15);
+    border-top: 2px solid rgba(15, 76, 129, 0.1);
+    /* Animasi subtle saat load */
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.watermark-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #0b78d1, transparent);
+    border-radius: 2px;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

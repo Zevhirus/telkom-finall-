@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CRM Pelanggan - Dashboard (Firebase Realtime)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="sidebar">
+      <div class="logo-container">
+          <img src="logo.png" alt="Logo Politeknik STIA LAN Makassar"> 
+      </div>
+      <ul class="nav">
+        <li data-page="dashboard" class="active">Dashboard</li>
+        <li data-page="master-pelanggan">Master</li>
+      </ul>
+      </div>
+    <main class="content">
+      <header>
+        <div id="page-title">Dashboard</div>
+        <div id="datetime"></div>
+        </header>
+      <div id="page-content" class="page-content">
+        </div>
+    </main>
+  </div>
+
+  <div class="watermark-footer">
+    Copy Right By Politeknik STIA LAN Makassar 2025
+  </div>
+
+  <div class="modal-backdrop" id="modal-add-edit">
+    <div class="modal" role="dialog" style="max-width: 600px;">
+      <h3 id="ae-title">Tambah Kegiatan</h3>
+      <div style="margin-top:8px">
+        <div class="form-row">
+          <select id="ae-type"><option value="planning">PLANNING</option><option value="visiting">VISITING</option></select>
+          <input id="ae-tgl-mulai" type="date" placeholder="Tanggal Mulai" />
+          <input id="ae-tgl-akhir" type="date" placeholder="Tanggal Akhir" />
+        </div>
+        <div class="form-row">
+          <select id="ae-wilayah" required><option value="">-- Pilih Wilayah --</option></select>
+          <select id="ae-am" required><option value="">-- Pilih AM --</option></select>
+        </div>
+        <div class="form-row">
+          <input id="ae-judul" placeholder="Judul/Jenis Kegiatan" />
+          <input id="ae-cust" type="text" placeholder="Nama Pelanggan (Manual)" />
+        </div>
+        <input id="ae-sid" type="text" placeholder="SID" style="margin-bottom: 8px;" />
+        
+        <textarea id="ae-desc" placeholder="Deskripsi"></textarea>
+        <div class="form-row">
+          <input id="ae-biaya" type="number" placeholder="Biaya (Contoh: 1500000)" />
+        </div>
+
+        <div id="ae-doc-section" style="margin-top:15px; border-top: 1px solid var(--muted-light); padding-top: 10px;">
+             <h4>Dokumen Kegiatan</h4>
+             
+             <div id="ae-doc-list-container-wrap">
+                 <p style="font-size:14px;font-weight:600;margin-bottom:8px;margin-top:15px">Dokumen Tersimpan:</p>
+                 <div id="ae-doc-list-container">
+                    <p style="color:var(--muted); text-align:center;">Belum ada dokumen yang diunggah.</p>
+                 </div>
+                 <hr style="margin: 15px 0;">
+             </div>
+
+            <p style="font-size:14px;font-weight:600;margin-bottom:8px;margin-top:5px">Unggah File:</p>
+            <div class="form-row">
+                <input type="file" id="ae-doc-file-input" style="flex: 2;"/>
+                <button class="btn primary" id="ae-doc-upload-btn" data-eventid="" data-event-type="">Unggah</button>
+            </div>
+            <small style="color:var(--muted);display:block;margin-top:5px;">File ini akan diunggah bersamaan dengan Simpan.</small>
+        </div>
+        <input type="hidden" id="ae-id" />
+        <div style="text-align:right;margin-top:10px">
+          <button class="btn" id="ae-cancel">Batal</button>
+          <button class="btn primary" id="ae-save">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="modal-add-cust">
+    <div class="modal" role="dialog">
+      <h3>Tambah Pelanggan Baru</h3>
+      <div style="margin-top:8px">
+        <div class="form-row">
+          <input id="ac-idcust" placeholder="USER ID (NIK)" />
+          <input id="ac-name" placeholder="Nama Kegiatan" />
+        </div>
+        <div class="form-row">
+          <input id="ac-am" placeholder="Nama Account Manager" />
+        </div>
+        <div style="text-align:right;margin-top:10px">
+          <button class="btn" id="ac-cancel">Batal</button>
+          <button class="btn primary" id="ac-save">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-edit-cust">
+    <div class="modal" role="dialog">
+      <h3>Edit Pelanggan</h3>
+      <div style="margin-top:8px">
+        <div class="form-row">
+          <input id="ec-idcust" placeholder="ID Customer" disabled />
+          <input id="ec-name" placeholder="Nama Pelanggan" />
+        </div>
+        <div class="form-row">
+          <input id="ec-am" placeholder="Nama Account Manager" />
+        </div>
+        <div style="text-align:right;margin-top:10px">
+          <button class="btn" id="ec-cancel">Batal</button>
+          <button class="btn primary" id="ec-save">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-add-pic">
+    <div class="modal" role="dialog">
+      <h3>Tambah PIC</h3>
+      <div style="margin-top:8px">
+        <div class="form-row">
+          <input id="pic-name" placeholder="Nama PIC" />
+          <input id="pic-phone" placeholder="Nomor HP" />
+        </div>
+        <div style="text-align:right;margin-top:10px">
+          <button class="btn" id="pic-cancel">Batal</button>
+          <button class="btn primary" id="pic-save">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-pic-cc">
+    <div class="modal" role="dialog" style="width: 800px;">
+        <h3 id="pic-cc-title">👥 PIC & Cost Centers</h3>
+        <div id="pic-cc-body" style="margin-top:8px">
+            </div>
+        <div style="text-align:right;margin-top:12px">
+            <button class="btn" id="pic-cc-close">Tutup</button>
+        </div>
+    </div>
+  </div>
+  
+  <div class="modal-backdrop" id="modal-add-cc">
+    <div class="modal" role="dialog">
+      <h3>Tambah Cost Center (CC)</h3>
+      <div style="margin-top:8px">
+        <div class="form-row">
+          <input id="cc-divisi" placeholder="Nama Dinas/Divisi (Contoh: Divisi IT)" />
+          <input id="cc-biaya" type="number" placeholder="Anggaran/Biaya (Contoh: 5000000)" />
+        </div>
+        <div style="text-align:right;margin-top:10px">
+          <button class="btn" id="cc-cancel">Batal</button>
+          <button class="btn primary" id="cc-save">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-doc-manager">
+    <div class="modal" role="dialog" style="width: 600px;">
+        <h3 id="doc-manager-title">📁 Dokumen Kegiatan</h3>
+        <div style="margin-top:8px">
+            <div id="doc-list-container">
+                <p style="color:var(--muted); text-align:center;">Tidak ada dokumen yang diunggah.</p>
+            </div>
+            <div id="doc-upload-section" style="margin-top: 15px; display: none;"> 
+                <hr style="margin: 15px 0;">
+                <p style="font-size:14px;font-weight:600;margin-bottom:8px">Unggah Dokumen Baru:</p>
+                <div class="form-row">
+                    <input type="file" id="doc-file-input" style="flex: 2;"/>
+                    <button class="btn primary" id="doc-upload-btn">Unggah</button>
+                </div>
+            </div>
+        </div>
+        <div style="text-align:right;margin-top:12px">
+            <button class="btn" id="doc-manager-close">Tutup</button>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-event-day" style="display:none;">
+    <div class="modal" role="dialog" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3 id="events-modal-title">Kegiatan Harian</h3>
+            <span class="close-btn" onclick="closeModalEventDay()">×</span>
+        </div>
+        <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+            <div id="events-modal-content">
+                </div>
+        </div>
+    </div>
+</div>
+  
+  <script type="module" src="app.js"></script>
+</body>
+</html>
